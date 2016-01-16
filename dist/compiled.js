@@ -1,9 +1,7 @@
 // main.js
-var add = function (a, b) {
-  return a + b;
-};
+const add = (a, b) => a + b;
 
-var a = 10;
-var b = 2;
-var sum = add(a, b);
-console.log(a + " + " + b + " = " + sum);
+const a = 10;
+const b = 2;
+const sum = add(a, b);
+console.log(`${ a } + ${ b } = ${ sum }`);
