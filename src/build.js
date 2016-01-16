@@ -2,10 +2,8 @@ var debug = require('debug')('compiled')
 var la = require('lazy-ass')
 var is = require('check-more-types')
 
-var inputFilename = process.argv[2]
 var outputFilename = 'dist/bundle.js'
 var featuresFilename = 'dist/es6-features.json'
-debug('building from', inputFilename)
 
 var saveFile = require('fs').writeFileSync
 
@@ -41,8 +39,9 @@ function findUsedES6 (outputFilename, filename) {
   debug('saved file with found es features', outputFilename)
 }
 
-function build (intputFilename) {
+function build (inputFilename) {
   la(is.unemptyString(inputFilename), 'missing input filename', inputFilename)
+  debug('building from', inputFilename)
 
   return roll(inputFilename, outputFilename)
     .then(findUsedES6.bind(null, featuresFilename))

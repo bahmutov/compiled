@@ -8,6 +8,23 @@
 
 Read [JavaScript needs the compile step (on install)](http://glebbahmutov.com/blog/javascript-needs-compile-step/) blog post.
 
+## Install and use
+
+    npm install -S compiled
+
+Define the following scripts in the `package.json` 
+(I am assuming the root source file is `src/main.js`)
+
+```json
+{
+    "scripts": {
+        "build": "build src/main.js",
+        "postinstall": "compile"
+    },
+    "main": "dist/compiled.js"
+}
+```
+
 ## Debug and development
 
 If you run this code using `DEBUG=compiled` variable, it will print debug log messages.

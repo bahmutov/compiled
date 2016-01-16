@@ -22,7 +22,8 @@
     "postinstall": "npm run compile",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "commit": "commit-wizard",
-    "test-build": "node bin/build.js test/main.js"
+    "test-build": "DEBUG=compiled node bin/build.js test/main.js",
+    "test-compile": "DEBUG=compiled node bin/compile.js"
   },
   "repository": {
     "type": "git",
@@ -75,7 +76,8 @@
       ],
       "pre-commit": [
         "npm run lint",
-        "npm run test-build"
+        "npm run test-build",
+        "npm run test-compile"
       ],
       "pre-push": [],
       "post-commit": [],
