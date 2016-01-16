@@ -10,7 +10,8 @@
   "preferGlobal": true,
   "files": [
     "bin",
-    "src"
+    "src",
+    "dist"
   ],
   "scripts": {
     "test": "npm run lint && npm run test-build && npm run test-compile",
