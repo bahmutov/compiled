@@ -13,7 +13,7 @@
     "src"
   ],
   "scripts": {
-    "test": "npm run lint",
+    "test": "npm run lint && npm run test-build && npm run test-compile",
     "lint": "standard src/*.js test/*.js bin/*.js",
     "ex-build": "npm run rollup && npm run es6-features",
     "ex-rollup": "rollup --output dist/bundle.js --format es6 test/main.js",
@@ -49,18 +49,23 @@
   },
   "homepage": "https://github.com/bahmutov/compiled#readme",
   "devDependencies": {
+    "condition-node-version": "1.2.0",
+    "pre-git": "3.3.0",
+    "semantic-release": "^4.3.5",
+    "standard": "5.4.1"
+  },
+  "dependencies": {
+    "check-more-types": "2.10.0",
+    "debug": "2.2.0",
+    "lazy-ass": "1.3.0",
+    "simple-bin-help": "1.5.1",
+    "rollup": "0.24.1",
+    "es-feature-tests": "0.3.0",
     "babel-core": "6.4.0",
     "babel-plugin-transform-es2015-arrow-functions": "6.4.0",
     "babel-plugin-transform-es2015-block-scoping": "6.4.0",
     "babel-plugin-transform-es2015-parameters": "6.4.2",
-    "babel-plugin-transform-es2015-template-literals": "6.3.13",
-    "babel-preset-es2015": "6.3.13",
-    "condition-node-version": "1.2.0",
-    "es-feature-tests": "0.3.0",
-    "pre-git": "3.3.0",
-    "rollup": "0.24.1",
-    "semantic-release": "^4.3.5",
-    "standard": "5.4.1"
+    "babel-plugin-transform-es2015-template-literals": "6.3.13"
   },
   "release": {
     "verifyConditions": {
@@ -83,11 +88,5 @@
       "post-commit": [],
       "post-merge": []
     }
-  },
-  "dependencies": {
-    "check-more-types": "2.10.0",
-    "debug": "2.2.0",
-    "lazy-ass": "1.3.0",
-    "simple-bin-help": "1.5.1"
   }
 }
