@@ -19,7 +19,7 @@
     "ex-rollup": "rollup --output dist/bundle.js --format es6 test/main.js",
     "ex-es6-features": "testify --file=dist/bundle.js --output=json > dist/es6-features.json",
     "compile": "echo \"Running transpile for `node --version`\" && node src/transpile.js",
-    "postinstall": "npm run compile",
+    "postinstall": "node bin/compile.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "commit": "commit-wizard",
     "test-build": "DEBUG=compiled node bin/build.js test/main.js",
