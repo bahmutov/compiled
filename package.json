@@ -10,20 +10,19 @@
   "preferGlobal": true,
   "files": [
     "bin",
-    "transpile.js",
     "src"
   ],
   "scripts": {
     "test": "npm run lint",
-    "lint": "standard transpile.js src/*.js bin/*.js",
+    "lint": "standard src/*.js test/*.js bin/*.js",
     "ex-build": "npm run rollup && npm run es6-features",
-    "ex-rollup": "rollup --output dist/bundle.js --format es6 src/main.js",
+    "ex-rollup": "rollup --output dist/bundle.js --format es6 test/main.js",
     "ex-es6-features": "testify --file=dist/bundle.js --output=json > dist/es6-features.json",
-    "compile": "echo \"Running transpile for `node --version`\" && node transpile.js",
+    "compile": "echo \"Running transpile for `node --version`\" && node src/transpile.js",
     "postinstall": "npm run compile",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "commit": "commit-wizard",
-    "test-build": "node bin/build.js src/main.js"
+    "test-build": "node bin/build.js test/main.js"
   },
   "repository": {
     "type": "git",
