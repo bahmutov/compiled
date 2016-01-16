@@ -2,9 +2,13 @@
   "name": "compiled",
   "version": "1.0.0",
   "description": "Compiles the ES* bundle to your NodeJS version on install",
-  "main": "transpile.js",
+  "main": "dist/compiled.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run rollup && npm run es6-features",
+    "rollup": "rollup --output dist/bundle.js --format es6 src/main.js",
+    "es6-features": "testify --file=dist/bundle.js --output=json > dist/es6-features.json",
+    "postinstall": "echo \"Running transpile for `node --version`\" && node transpile.js"
   },
   "repository": {
     "type": "git",
@@ -28,5 +32,15 @@
   "bugs": {
     "url": "https://github.com/bahmutov/compiled/issues"
   },
-  "homepage": "https://github.com/bahmutov/compiled#readme"
+  "homepage": "https://github.com/bahmutov/compiled#readme",
+  "devDependencies": {
+    "babel-core": "6.4.0",
+    "babel-plugin-transform-es2015-arrow-functions": "6.4.0",
+    "babel-plugin-transform-es2015-block-scoping": "6.4.0",
+    "babel-plugin-transform-es2015-parameters": "6.4.2",
+    "babel-plugin-transform-es2015-template-literals": "6.3.13",
+    "babel-preset-es2015": "6.3.13",
+    "es-feature-tests": "0.3.0",
+    "rollup": "0.24.1"
+  }
 }
