@@ -4,7 +4,7 @@
   "main": "dist/compiled.js",
   "scripts": {
     "test": "npm run lint",
-    "lint": "standard transpile.js",
+    "lint": "standard transpile.js src/*.js",
     "build": "npm run rollup && npm run es6-features",
     "rollup": "rollup --output dist/bundle.js --format es6 src/main.js",
     "es6-features": "testify --file=dist/bundle.js --output=json > dist/es6-features.json",
