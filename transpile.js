@@ -11,7 +11,7 @@ es6support('all', function (es6results) {
   transpile(es6results, es6features, filename, outFilename)
 })
 
-function transpile(supportedFeatures, neededFeatures, inputFilename, outputFilename) {
+function transpile (supportedFeatures, neededFeatures, inputFilename, outputFilename) {
   var babelMapping = {
     letConst: ['transform-es2015-block-scoping'],
     templateString: 'transform-es2015-template-literals',
@@ -55,5 +55,4 @@ function transpile(supportedFeatures, neededFeatures, inputFilename, outputFilen
     require('fs').writeFileSync(outFilename, result.code, 'utf-8')
     console.log('saved file', outFilename)
   })
-
 }

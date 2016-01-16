@@ -1,18 +1,20 @@
 {
   "name": "compiled",
-  "version": "1.0.0",
   "description": "Compiles the ES* bundle to your NodeJS version on install",
   "main": "dist/compiled.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run lint",
+    "lint": "standard transpile.js",
     "build": "npm run rollup && npm run es6-features",
     "rollup": "rollup --output dist/bundle.js --format es6 src/main.js",
     "es6-features": "testify --file=dist/bundle.js --output=json > dist/es6-features.json",
-    "postinstall": "echo \"Running transpile for `node --version`\" && node transpile.js"
+    "postinstall": "echo \"Running transpile for `node --version`\" && node transpile.js",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "commit": "commit-wizard"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bahmutov/compiled.git"
+    "url": "https://github.com/bahmutov/compiled.git"
   },
   "keywords": [
     "node",
@@ -40,7 +42,32 @@
     "babel-plugin-transform-es2015-parameters": "6.4.2",
     "babel-plugin-transform-es2015-template-literals": "6.3.13",
     "babel-preset-es2015": "6.3.13",
+    "condition-node-version": "1.2.0",
     "es-feature-tests": "0.3.0",
-    "rollup": "0.24.1"
+    "pre-git": "3.3.0",
+    "rollup": "0.24.1",
+    "semantic-release": "^4.3.5",
+    "standard": "5.4.1"
+  },
+  "release": {
+    "verifyConditions": {
+      "path": "condition-node-version",
+      "node": "4.2.2",
+      "verbose": false
+    }
+  },
+  "config": {
+    "pre-git": {
+      "commit-msg": [
+        "simple"
+      ],
+      "pre-commit": [
+        "npm run lint",
+        "npm run build"
+      ],
+      "pre-push": [],
+      "post-commit": [],
+      "post-merge": []
+    }
   }
 }
