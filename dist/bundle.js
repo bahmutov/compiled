@@ -1,5 +1,3 @@
-'use strict';
-
 // calc.js
 const add = (a, b) => a + b
 
