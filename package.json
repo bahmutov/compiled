@@ -8,6 +8,9 @@
     "compile": "bin/compile.js"
   },
   "preferGlobal": true,
+  "publishConfig": {
+    "tag": "dev"
+  },
   "files": [
     "bin",
     "transpile.js",
@@ -22,7 +25,8 @@
     "compile": "echo \"Running transpile for `node --version`\" && node transpile.js",
     "postinstall": "npm run compile",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "commit": "commit-wizard"
+    "commit": "commit-wizard",
+    "test-build": "node bin/build.js src/main.js"
   },
   "repository": {
     "type": "git",
