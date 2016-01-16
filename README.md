@@ -6,6 +6,8 @@
 [![Build status][compiled-ci-image] ][compiled-ci-url]
 [![semantic-release][semantic-image] ][semantic-url]
 
+Read [JavaScript needs the compile step (on install)](http://glebbahmutov.com/blog/javascript-needs-compile-step/) blog post.
+
 ### Small print
 
 Author: Gleb Bahmutov &copy; 2015

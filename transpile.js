@@ -44,7 +44,7 @@ function transpile (supportedFeatures, neededFeatures, inputFilename, outputFile
     }
   })
 
-  console.log('need plugins', plugins)
+  console.log('using plugins', plugins)
 
   var babel = require('babel-core')
   var options = {
