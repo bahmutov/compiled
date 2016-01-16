@@ -8,6 +8,20 @@
 
 Read [JavaScript needs the compile step (on install)](http://glebbahmutov.com/blog/javascript-needs-compile-step/) blog post.
 
+## Debug and development
+
+If you run this code using `DEBUG=compiled` variable, it will print debug log messages.
+For example
+
+    $ DEBUG=compiled npm run test-build
+    > compiled@0.0.0-semantic-release test-build /Users/kensho/git/compiled
+    > node bin/build.js src/main.js
+      compiled building from +0ms src/main.js
+      compiled saved bundle +69ms dist/bundle.js
+      compiled scanning for es features +39ms dist/bundle.js
+      compiled used ES features +15ms [ 'arrow', 'letConst', 'templateString' ]
+      compiled saved file with found es features +3ms dist/es6-features.json
+
 ### Small print
 
 Author: Gleb Bahmutov &copy; 2016

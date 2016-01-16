@@ -3,6 +3,8 @@
 'use strict'
 
 var debug = require('debug')('compiled')
+var la = require('lazy-ass')
+var is = require('check-more-types')
 
 var help = [
   'USE: build <path/to/first/js/file>',
@@ -46,6 +48,8 @@ function findUsedES6 (outputFilename, filename) {
     output: 'json',
     enable: []
   })
+  la(is.array(output), 'expected list of features', output)
+  output = output.sort()
   debug('used ES features', output)
 
   saveFile(outputFilename, JSON.stringify(output, null, 2), 'utf-8')
