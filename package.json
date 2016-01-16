@@ -87,6 +87,7 @@
     }
   },
   "dependencies": {
+    "debug": "2.2.0",
     "simple-bin-help": "1.5.1"
   }
 }

@@ -1,1 +1,5 @@
-["arrow","letConst","templateString"]
+[
+  "templateString",
+  "arrow",
+  "letConst"
+]
