@@ -10,7 +10,7 @@ Read [JavaScript needs the compile step (on install)](http://glebbahmutov.com/bl
 
 ### Small print
 
-Author: Gleb Bahmutov &copy; 2015
+Author: Gleb Bahmutov &copy; 2016
 
 * [@bahmutov](https://twitter.com/bahmutov)
 * [glebbahmutov.com](http://glebbahmutov.com)
@@ -25,7 +25,7 @@ Support: if you find any problems with this module, email / tweet /
 
 ## MIT License
 
-Copyright (c) 2015 Gleb Bahmutov
+Copyright (c) 2016 Gleb Bahmutov
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation

@@ -2,9 +2,20 @@
   "name": "compiled",
   "description": "Compiles the ES* bundle to your NodeJS version on install",
   "main": "dist/compiled.js",
+  "version": "0.0.0-semantic-release",
+  "bin": {
+    "build": "bin/build.js",
+    "compile": "bin/compile.js"
+  },
+  "preferGlobal": true,
+  "files": [
+    "bin",
+    "transpile.js",
+    "src"
+  ],
   "scripts": {
     "test": "npm run lint",
-    "lint": "standard transpile.js src/*.js",
+    "lint": "standard transpile.js src/*.js bin/*.js",
     "build": "npm run rollup && npm run es6-features",
     "rollup": "rollup --output dist/bundle.js --format es6 src/main.js",
     "es6-features": "testify --file=dist/bundle.js --output=json > dist/es6-features.json",
@@ -70,5 +81,8 @@
       "post-commit": [],
       "post-merge": []
     }
+  },
+  "dependencies": {
+    "simple-bin-help": "1.5.1"
   }
 }
