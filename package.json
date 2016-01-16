@@ -1,0 +1,32 @@
+{
+  "name": "compiled",
+  "version": "1.0.0",
+  "description": "Compiles the ES* bundle to your NodeJS version on install",
+  "main": "transpile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bahmutov/compiled.git"
+  },
+  "keywords": [
+    "node",
+    "nodejs",
+    "version",
+    "es5",
+    "es6",
+    "es7",
+    "features",
+    "babel",
+    "rollup",
+    "compile",
+    "transpile"
+  ],
+  "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bahmutov/compiled/issues"
+  },
+  "homepage": "https://github.com/bahmutov/compiled#readme"
+}
