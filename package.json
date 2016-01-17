@@ -16,7 +16,7 @@
     "src"
   ],
   "scripts": {
-    "test": "npm run lint && npm run test-build && npm run test-compile",
+    "test": "npm run lint && npm run test-build && npm run test-compile && node dist/compiled.js",
     "lint": "standard src/*.js test/*.js bin/*.js",
     "ex-build": "npm run rollup && npm run es6-features",
     "ex-rollup": "rollup --output dist/bundle.js --format es6 test/main.js",
@@ -24,6 +24,7 @@
     "compile": "echo \"Running transpile for `node --version`\" && node src/transpile.js",
     "run-postinstall": "node bin/compile.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "issues": "git-issues",
     "commit": "commit-wizard",
     "test-build": "DEBUG=compiled node bin/build.js test/main.js",
     "test-compile": "DEBUG=compiled node bin/compile.js"
@@ -53,6 +54,7 @@
   "homepage": "https://github.com/bahmutov/compiled#readme",
   "devDependencies": {
     "condition-node-version": "1.2.0",
+    "git-issues": "1.2.0",
     "pre-git": "3.3.0",
     "semantic-release": "^4.3.5",
     "standard": "5.4.1"
@@ -61,6 +63,7 @@
     "babel-core": "6.4.0",
     "babel-plugin-transform-es2015-arrow-functions": "6.4.0",
     "babel-plugin-transform-es2015-block-scoping": "6.4.0",
+    "babel-plugin-transform-es2015-destructuring": "6.4.0",
     "babel-plugin-transform-es2015-parameters": "6.4.2",
     "babel-plugin-transform-es2015-template-literals": "6.3.13",
     "babel-polyfill": "6.3.14",

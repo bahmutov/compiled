@@ -19,6 +19,7 @@ function transpile (supportedFeatures, neededFeatures, inputFilename, outputFile
     letConst: ['transform-es2015-block-scoping'],
     templateString: 'transform-es2015-template-literals',
     arrow: 'transform-es2015-arrow-functions',
+    parameterDestructuring: ['transform-es2015-parameters', 'transform-es2015-destructuring'],
     promises: includePolyfill
   }
 
@@ -52,7 +53,12 @@ function transpile (supportedFeatures, neededFeatures, inputFilename, outputFile
 
   neededFeatures.forEach(function (feature) {
     if (!supportedFeatures[feature]) {
-      addPlugin(babelMapping[feature])
+      var needPlugins = babelMapping[feature]
+      if (!needPlugins) {
+        console.log('WARNING: feature', feature, 'is not handled')
+        return
+      }
+      addPlugin(needPlugins)
     }
   })
 

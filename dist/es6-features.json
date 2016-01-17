@@ -1,6 +1,7 @@
 [
   "arrow",
   "letConst",
+  "parameterDestructuring",
   "promises",
   "templateString"
 ]
