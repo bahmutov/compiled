@@ -2,12 +2,10 @@
 
 // calc.js
 
-var add = function (a, b) {
-  return a + b;
-};
+const add = (a, b) => a + b;
 
-var a = 10;
-var b = 2;
+const a = 10;
+const b = 2;
 Promise.resolve(add(a, b)).then(function (sum) {
-  console.log(a + ' + ' + b + ' = ' + sum);
+  console.log(`${ a } + ${ b } = ${ sum }`);
 });

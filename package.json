@@ -86,7 +86,8 @@
       "pre-commit": [
         "npm run lint",
         "npm run test-build",
-        "npm run test-compile"
+        "npm run test-compile",
+        "node dist/compiled.js"
       ],
       "pre-push": [],
       "post-commit": [],
