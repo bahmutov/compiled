@@ -9,7 +9,8 @@
   },
   "preferGlobal": true,
   "engines": {
-    "node": ">=0.11.0"
+    "node": ">=0.11.0",
+    "npm": ">=3.0.0"
   },
   "files": [
     "bin",
