@@ -1,3 +1,5 @@
+require('babel-polyfill')
+
 var debug = require('debug')('compiled')
 var la = require('lazy-ass')
 var is = require('check-more-types')
@@ -6,14 +8,22 @@ var join = require('path').join
 
 var esFeaturesFilename = join(process.cwd(), './dist/es6-features')
 
+// TODO ?
+function includePolyfill (transpiledSource) {
+  debug('including Babel polyfill in transpiled code')
+  return transpiledSource
+}
+
 function transpile (supportedFeatures, neededFeatures, inputFilename, outputFilename) {
   var babelMapping = {
     letConst: ['transform-es2015-block-scoping'],
     templateString: 'transform-es2015-template-literals',
-    arrow: 'transform-es2015-arrow-functions'
+    arrow: 'transform-es2015-arrow-functions',
+    promises: includePolyfill
   }
 
-  var plugins = []
+  var plugins = [] // plugin names
+  var postProcessors = [] // functions
 
   function addUniquePlugin (name) {
     if (!name) {
@@ -25,6 +35,13 @@ function transpile (supportedFeatures, neededFeatures, inputFilename, outputFile
   }
 
   function addPlugin (names) {
+    if (is.fn(names)) {
+      if (postProcessors.indexOf(names) === -1) {
+        postProcessors.push(names)
+      }
+      return
+    }
+
     if (typeof names === 'string') {
       return addUniquePlugin(names)
     }
@@ -51,7 +68,17 @@ function transpile (supportedFeatures, neededFeatures, inputFilename, outputFile
       if (err) {
         return reject(err)
       }
-      require('fs').writeFileSync(outputFilename, result.code, 'utf-8')
+
+      var output = result.code
+      if (postProcessors.length) {
+        debug('running %d post processors', postProcessors.length)
+        postProcessors.forEach(function (fn, k) {
+          la(is.fn(fn), 'expected post processor function at', k)
+          output = fn(output)
+        })
+      }
+
+      require('fs').writeFileSync(outputFilename, output, 'utf-8')
       debug('saved file', outputFilename)
       resolve(outputFilename)
     })
