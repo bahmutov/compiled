@@ -71,6 +71,7 @@ function transpile (supportedFeatures, neededFeatures, inputFilename, outputFile
 
   return new Promise(function (resolve, reject) {
     babel.transformFile(inputFilename, options, function (err, result) {
+      debug('transformed file', inputFilename, 'was there an error?', err)
       if (err) {
         return reject(err)
       }
@@ -98,9 +99,11 @@ function compile (inputFilename, outputFilename) {
   var es6features = require(esFeaturesFilename)
   debug('need es6 features', es6features)
 
-  return new Promise(function (resolve) {
+  return new Promise(function (resolve, reject) {
     es6support('all', function (es6results) {
       return transpile(es6results, es6features, inputFilename, outputFilename)
+        .then(resolve)
+        .catch(reject)
     })
   })
 }
