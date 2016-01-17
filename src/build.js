@@ -32,6 +32,12 @@ function findUsedES6 (outputFilename, filename) {
     enable: []
   })
   la(is.array(output), 'expected list of features', output)
+
+  var extraTests = require('./extra-tests')
+  if (extraTests.usesPromises(filename)) {
+    output.push('promises')
+  }
+
   output = output.sort()
   debug('used ES features', output)
 

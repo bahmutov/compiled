@@ -23,7 +23,7 @@
     "run-postinstall": "node bin/compile.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "commit": "commit-wizard",
-    "test-build": "DEBUG=compiled node bin/build.js src/compiled.js",
+    "test-build": "DEBUG=compiled node bin/build.js test/main.js",
     "test-compile": "DEBUG=compiled node bin/compile.js"
   },
   "repository": {

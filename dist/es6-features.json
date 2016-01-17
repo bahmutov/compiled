@@ -1,1 +1,6 @@
-[]
+[
+  "arrow",
+  "letConst",
+  "promises",
+  "templateString"
+]
