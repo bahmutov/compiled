@@ -9,13 +9,34 @@ var saveFile = require('fs').writeFileSync
 function roll (inputFilename, outputFilename) {
   var rollup = require('rollup')
 
+  var firstLine = utils.getFirstLine(inputFilename)
+  var hasHashBang = utils.isHashbang(firstLine)
+
+  if (hasHashBang) {
+    utils.removeFirstLine(inputFilename)
+  }
+
+  function restoreHashBang () {
+    if (hasHashBang) {
+      utils.restoreFirstLine(inputFilename, firstLine)
+      utils.restoreFirstLine(outputFilename, firstLine + '\n')
+      debug('restored hashbang in %s and added to %s',
+        inputFilename, outputFilename)
+    }
+  }
+
   return rollup.rollup({
     entry: inputFilename
   }).then(function (bundle) {
     return bundle.write({
       format: 'cjs',
       dest: outputFilename
-    }).then(function () {
+    })
+    .then(restoreHashBang, function (err) {
+      restoreHashBang()
+      throw err
+    })
+    .then(function () {
       debug('saved bundle', outputFilename)
       return outputFilename
     })
@@ -58,6 +79,7 @@ function buildBundle (inputFilename, toDir, name) {
     .catch(function (err) {
       console.error('problem building', inputFilename)
       console.error(err.message)
+      console.error(err.stack)
       process.exit(-1)
     })
 }

@@ -17,7 +17,7 @@
     "src"
   ],
   "scripts": {
-    "test": "npm run lint && npm run test-build && npm run test-compile && node dist/compiled.js",
+    "test": "npm run lint && npm run test-build && npm run test-compile && node dist/main.compiled.js",
     "lint": "standard src/*.js test/*.js bin/*.js",
     "ex-build": "npm run rollup && npm run es6-features",
     "ex-rollup": "rollup --output dist/bundle.js --format es6 test/main.js",
@@ -85,7 +85,7 @@
   "config": {
     "compiled": {
       "dir": "dist",
-      "files": ["test/main.js"]
+      "files": ["test/main.js", "test/bin-main.js"]
     },
     "pre-git": {
       "commit-msg": [
@@ -95,7 +95,7 @@
         "npm run lint",
         "npm run test-build",
         "npm run test-compile",
-        "node dist/compiled.js"
+        "node dist/main.compiled.js"
       ],
       "pre-push": [],
       "post-commit": [],
