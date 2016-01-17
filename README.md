@@ -12,18 +12,36 @@ Read [JavaScript needs the compile step (on install)](http://glebbahmutov.com/bl
 
     npm install -S compiled
 
-Define the following scripts in the `package.json` 
+Add the configuration to your project's `package.json` file 
 (I am assuming the root source file is `src/main.js`)
+
+```json
+"config": {
+  "compiled": {
+    "dir": "dist",
+    "files": ["src/main.js"]
+  }
+}
+```
+
+You can list multiple files in `files` list - each bundle will be processed separately.
+
+Define the following scripts in the `package.json` 
 
 ```json
 {
     "scripts": {
-        "build": "build src/main.js",
+        "build": "build",
         "postinstall": "compile"
     },
-    "main": "dist/compiled.js"
+    "main": "dist/main.compiled.js"
 }
 ```
+
+## Multiple bundles
+
+Good example is the [left-behind](https://github.com/bahmutov/left-behind) repo.
+It has the main code and a bin script. Each is compiled separately.
 
 ## Debug and development
 

@@ -2,6 +2,7 @@ var debug = require('debug')('compiled')
 var la = require('lazy-ass')
 var is = require('check-more-types')
 var getConfig = require('./get-config')
+var utils = require('./utils')
 var path = require('path')
 var saveFile = require('fs').writeFileSync
 
@@ -31,10 +32,10 @@ function findUsedES6 (outputFilename, filename) {
   })
   la(is.array(output), 'expected list of features', output)
 
-  var extraTests = require('./extra-tests')
-  if (extraTests.usesPromises(filename)) {
-    output.push('promises')
-  }
+  // var extraTests = require('./extra-tests')
+  // if (extraTests.usesPromises(filename)) {
+  //   output.push('promises')
+  // }
 
   output = output.sort()
   debug('used ES features', output)
@@ -43,24 +44,14 @@ function findUsedES6 (outputFilename, filename) {
   debug('saved file with found es features', outputFilename)
 }
 
-function getBuildConfig () {
-  var config = getConfig()
-  var isConfig = is.schema({
-    dir: is.unemptyString,
-    files: is.array
-  })
-  la(isConfig(config), 'invalid compiled config', config)
-  return config
-}
-
 function buildBundle (inputFilename, toDir, name) {
   la(is.unemptyString(inputFilename), 'missing input filename', inputFilename)
   la(is.unemptyString(toDir), 'missing output dir name', toDir)
   la(is.unemptyString(name), 'missing bundle name', name)
 
-  var outputFilename = path.join(toDir, name + '.bundle.js')
+  var outputFilename = path.join(toDir, utils.builtName(name))
   debug('building %s from %s to %s', name, inputFilename, outputFilename)
-  var featuresFilename = path.join(toDir, name + '.features.json')
+  var featuresFilename = path.join(toDir, utils.featuresName(name))
 
   return roll(inputFilename, outputFilename)
     .then(findUsedES6.bind(null, featuresFilename))
@@ -71,15 +62,11 @@ function buildBundle (inputFilename, toDir, name) {
     })
 }
 
-function bundleName (filename) {
-  return path.basename(filename, '.js')
-}
-
 function build () {
-  var config = getBuildConfig()
+  var config = getConfig()
   debug('found %d files in to build', config.files.length)
   var promises = config.files.map(function (filename) {
-    return buildBundle(filename, config.dir, bundleName(filename))
+    return buildBundle(filename, config.dir, utils.bundleName(filename))
   })
   return Promise.all(promises)
 }

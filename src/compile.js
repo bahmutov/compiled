@@ -3,28 +3,21 @@ require('babel-polyfill')
 var debug = require('debug')('compiled')
 var la = require('lazy-ass')
 var is = require('check-more-types')
+var utils = require('./utils')
 var es6support = require('es-feature-tests')
-var join = require('path').join
-
-var esFeaturesFilename = join(process.cwd(), './dist/es6-features')
-
-// TODO ?
-function includePolyfill (transpiledSource) {
-  debug('including Babel polyfill in transpiled code')
-  return transpiledSource
-}
+var getConfig = require('./get-config')
+var path = require('path')
+var fs = require('fs')
 
 function transpile (supportedFeatures, neededFeatures, inputFilename, outputFilename) {
   var babelMapping = {
     letConst: ['transform-es2015-block-scoping'],
     templateString: 'transform-es2015-template-literals',
     arrow: 'transform-es2015-arrow-functions',
-    parameterDestructuring: ['transform-es2015-parameters', 'transform-es2015-destructuring'],
-    promises: includePolyfill
+    parameterDestructuring: ['transform-es2015-parameters', 'transform-es2015-destructuring']
   }
 
   var plugins = [] // plugin names
-  var postProcessors = [] // functions
 
   function addUniquePlugin (name) {
     if (!name) {
@@ -36,13 +29,6 @@ function transpile (supportedFeatures, neededFeatures, inputFilename, outputFile
   }
 
   function addPlugin (names) {
-    if (is.fn(names)) {
-      if (postProcessors.indexOf(names) === -1) {
-        postProcessors.push(names)
-      }
-      return
-    }
-
     if (typeof names === 'string') {
       return addUniquePlugin(names)
     }
@@ -77,14 +63,6 @@ function transpile (supportedFeatures, neededFeatures, inputFilename, outputFile
       }
 
       var output = result.code
-      if (postProcessors.length) {
-        debug('running %d post processors', postProcessors.length)
-        postProcessors.forEach(function (fn, k) {
-          la(is.fn(fn), 'expected post processor function at', k)
-          output = fn(output)
-        })
-      }
-
       require('fs').writeFileSync(outputFilename, output, 'utf-8')
       debug('saved file', outputFilename)
       resolve(outputFilename)
@@ -92,11 +70,14 @@ function transpile (supportedFeatures, neededFeatures, inputFilename, outputFile
   })
 }
 
-function compile (inputFilename, outputFilename) {
+function compileBundle (inputFilename, esFeaturesFilename, outputFilename) {
   la(is.unemptyString(inputFilename), 'missing input filename')
   la(is.unemptyString(outputFilename), 'missing output filename')
 
-  var es6features = require(esFeaturesFilename)
+  var es6features = JSON.parse(fs.readFileSync(esFeaturesFilename, 'utf-8'))
+  la(is.array(es6features),
+    'expected list of features from', esFeaturesFilename,
+    'got', es6features)
   debug('need es6 features', es6features)
 
   return new Promise(function (resolve, reject) {
@@ -106,6 +87,23 @@ function compile (inputFilename, outputFilename) {
         .catch(reject)
     })
   })
+}
+
+function compile () {
+  var config = getConfig()
+  debug('found %d files in to build', config.files.length)
+  var promises = config.files.map(function (filename) {
+    var name = utils.bundleName(filename)
+    var builtFilename = path.join(config.dir, utils.builtName(name))
+    var featuresFilename = path.join(config.dir, utils.featuresName(name))
+    var compiledFilename = path.join(config.dir, utils.compiledName(name))
+
+    debug('compile %s from %s and %s to %s',
+      name, builtFilename, featuresFilename, compiledFilename)
+
+    return compileBundle(builtFilename, featuresFilename, compiledFilename)
+  })
+  return Promise.all(promises)
 }
 
 module.exports = compile

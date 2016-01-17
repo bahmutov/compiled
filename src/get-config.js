@@ -33,4 +33,14 @@ function getConfig () {
   return pkg.config.compiled
 }
 
-module.exports = getConfig
+function getBuildConfig () {
+  var config = getConfig()
+  var isConfig = is.schema({
+    dir: is.unemptyString,
+    files: is.array
+  })
+  la(isConfig(config), 'invalid compiled config', config)
+  return config
+}
+
+module.exports = getBuildConfig
