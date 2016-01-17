@@ -17,13 +17,8 @@
     "src"
   ],
   "scripts": {
-    "test": "npm run lint && npm run test-build && npm run test-compile && node dist/main.compiled.js",
+    "test": "npm run lint && npm run test-build && npm run test-compile && node test-dist/main.compiled.js",
     "lint": "standard src/*.js test/*.js bin/*.js",
-    "ex-build": "npm run rollup && npm run es6-features",
-    "ex-rollup": "rollup --output dist/bundle.js --format es6 test/main.js",
-    "ex-es6-features": "testify --file=dist/bundle.js --output=json > dist/es6-features.json",
-    "compile": "echo \"Running transpile for `node --version`\" && node src/transpile.js",
-    "run-postinstall": "node bin/compile.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "issues": "git-issues",
     "commit": "commit-wizard",
@@ -84,7 +79,7 @@
   },
   "config": {
     "compiled": {
-      "dir": "dist",
+      "dir": "test-dist",
       "files": ["test/main.js", "test/bin-main.js"]
     },
     "pre-git": {
@@ -95,7 +90,7 @@
         "npm run lint",
         "npm run test-build",
         "npm run test-compile",
-        "node dist/main.compiled.js"
+        "node test-dist/main.compiled.js"
       ],
       "pre-push": [],
       "post-commit": [],
