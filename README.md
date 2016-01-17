@@ -30,7 +30,7 @@ Define the following scripts in the `package.json`
 If you run this code using `DEBUG=compiled` variable, it will print debug log messages.
 For example
 
-    $ DEBUG=compiled npm run test-build
+    $ DEBUG=compiled npm run build
     > compiled@0.0.0-semantic-release test-build /Users/kensho/git/compiled
     > node bin/build.js src/main.js
       compiled building from +0ms src/main.js
