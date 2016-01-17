@@ -27,7 +27,7 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "issues": "git-issues",
     "commit": "commit-wizard",
-    "test-build": "DEBUG=compiled node bin/build.js test/main.js",
+    "test-build": "DEBUG=compiled node bin/build.js",
     "test-compile": "DEBUG=compiled node bin/compile.js"
   },
   "repository": {
@@ -83,6 +83,10 @@
     }
   },
   "config": {
+    "compiled": {
+      "dir": "dist",
+      "files": ["test/main.js"]
+    },
     "pre-git": {
       "commit-msg": [
         "simple"

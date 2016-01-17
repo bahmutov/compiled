@@ -3,22 +3,21 @@
 'use strict'
 
 var help = [
-  'USE: build <path/to/first/js/file>',
-  '     build src/main.js'
+  'USE: build',
+  'see https://github.com/bahmutov/compiled for help'
 ].join('\n')
 
 require('simple-bin-help')({
-  minArguments: 3,
+  minArguments: 2,
   packagePath: __dirname + '/../package.json',
   help: help
 })
 
-var inputFilename = process.argv[2]
 var build = require('..').build
 
-build(inputFilename)
+build()
   .catch(function (err) {
-    console.error('problem building', inputFilename)
+    console.error('problem building bundles')
     console.error(err.message)
     console.error(err.stack)
     process.exit(-1)

@@ -1,10 +1,8 @@
 var debug = require('debug')('compiled')
 var la = require('lazy-ass')
 var is = require('check-more-types')
-
-var outputFilename = 'dist/bundle.js'
-var featuresFilename = 'dist/es6-features.json'
-
+var getConfig = require('./get-config')
+var path = require('path')
 var saveFile = require('fs').writeFileSync
 
 function roll (inputFilename, outputFilename) {
@@ -45,9 +43,24 @@ function findUsedES6 (outputFilename, filename) {
   debug('saved file with found es features', outputFilename)
 }
 
-function build (inputFilename) {
+function getBuildConfig () {
+  var config = getConfig()
+  var isConfig = is.schema({
+    dir: is.unemptyString,
+    files: is.array
+  })
+  la(isConfig(config), 'invalid compiled config', config)
+  return config
+}
+
+function buildBundle (inputFilename, toDir, name) {
   la(is.unemptyString(inputFilename), 'missing input filename', inputFilename)
-  debug('building from', inputFilename)
+  la(is.unemptyString(toDir), 'missing output dir name', toDir)
+  la(is.unemptyString(name), 'missing bundle name', name)
+
+  var outputFilename = path.join(toDir, name + '.bundle.js')
+  debug('building %s from %s to %s', name, inputFilename, outputFilename)
+  var featuresFilename = path.join(toDir, name + '.features.json')
 
   return roll(inputFilename, outputFilename)
     .then(findUsedES6.bind(null, featuresFilename))
@@ -56,6 +69,19 @@ function build (inputFilename) {
       console.error(err.message)
       process.exit(-1)
     })
+}
+
+function bundleName (filename) {
+  return path.basename(filename, '.js')
+}
+
+function build () {
+  var config = getBuildConfig()
+  debug('found %d files in to build', config.files.length)
+  var promises = config.files.map(function (filename) {
+    return buildBundle(filename, config.dir, bundleName(filename))
+  })
+  return Promise.all(promises)
 }
 
 module.exports = build
