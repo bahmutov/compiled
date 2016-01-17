@@ -1,5 +1,3 @@
-'use strict';
-
 var build = require('./build')
 var compile = require('./compile')
 module.exports = {

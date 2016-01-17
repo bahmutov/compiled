@@ -15,7 +15,9 @@ require('simple-bin-help')({
 
 var inputFilename = './dist/bundle.js'
 var outputFilename = './dist/compiled.js'
-var compile = require('../src/compile')
+// require || takes care of self-build
+var compile = require('..').compile ||
+  require('../src/compile')
 
 compile(inputFilename, outputFilename)
   .catch(function (err) {

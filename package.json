@@ -1,7 +1,7 @@
 {
   "name": "compiled",
   "description": "Compiles the ES* bundle to your NodeJS version on install",
-  "main": "dist/compiled.js",
+  "main": "src/compiled.js",
   "version": "0.0.0-semantic-release",
   "bin": {
     "build": "bin/build.js",
@@ -20,10 +20,10 @@
     "ex-rollup": "rollup --output dist/bundle.js --format es6 test/main.js",
     "ex-es6-features": "testify --file=dist/bundle.js --output=json > dist/es6-features.json",
     "compile": "echo \"Running transpile for `node --version`\" && node src/transpile.js",
-    "postinstall": "node bin/compile.js",
+    "run-postinstall": "node bin/compile.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "commit": "commit-wizard",
-    "test-build": "DEBUG=compiled node bin/build.js test/main.js",
+    "test-build": "DEBUG=compiled node bin/build.js src/compiled.js",
     "test-compile": "DEBUG=compiled node bin/compile.js"
   },
   "repository": {

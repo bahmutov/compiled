@@ -14,7 +14,7 @@ require('simple-bin-help')({
 })
 
 var inputFilename = process.argv[2]
-var build = require('../src/build')
+var build = require('..').build
 
 build(inputFilename)
   .catch(function (err) {
