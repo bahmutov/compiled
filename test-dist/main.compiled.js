@@ -31,3 +31,16 @@ var foo = 'foo';
 var bar = 'bar';
 var o = { foo: foo, bar: bar };
 console.log('object ' + o.foo + ' and ' + o.bar);
+
+// destructuring assignment
+var list = [1, 2, 3];
+var first = list[0];
+var third = list[2];
+
+console.assert(first === 1, 'first element');
+console.assert(third === 3, 'third element');
+
+// TODO detect string repeat
+// string repeat
+// const foo3 = 'foo'.repeat(3)
+// console.assert(foo3 === 'foofoofoo', 'string repeat')
