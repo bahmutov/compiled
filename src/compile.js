@@ -16,7 +16,8 @@ function transpile (supportedFeatures, neededFeatures, inputFilename, outputFile
     arrow: 'transform-es2015-arrow-functions',
     parameterDestructuring: ['transform-es2015-parameters', 'transform-es2015-destructuring'],
     numericLiteral: 'transform-es2015-literals',
-    spreadRest: 'transform-es2015-spread'
+    spreadRest: 'transform-es2015-spread',
+    conciseMethodProperty: 'transform-es2015-shorthand-properties'
   }
 
   var plugins = [] // plugin names

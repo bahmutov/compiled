@@ -1,5 +1,6 @@
 [
   "arrow",
+  "conciseMethodProperty",
   "letConst",
   "numericLiteral",
   "parameterDestructuring",

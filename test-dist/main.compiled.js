@@ -24,4 +24,10 @@ console.log('binary literal', 5);
 // spread rest support
 var params = ['hello', true, 7];
 var other = [1, 2].concat(params); // [ 1, 2, 'hello', true, 7 ]
-console.assert(other.length === 5);
+console.assert(other.length === 5, 'spread / rest not working');
+
+// object properties
+var foo = 'foo';
+var bar = 'bar';
+var o = { foo: foo, bar: bar };
+console.log('object ' + o.foo + ' and ' + o.bar);
