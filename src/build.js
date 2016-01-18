@@ -37,6 +37,9 @@ function roll (inputFilename, outputFilename) {
       throw err
     })
     .then(function () {
+      utils.finishWithEndline(outputFilename)
+    })
+    .then(function () {
       debug('saved bundle', outputFilename)
       return outputFilename
     })

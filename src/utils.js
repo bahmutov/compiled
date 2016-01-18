@@ -45,6 +45,25 @@ function restoreFirstLine (filename, line) {
   fs.writeFileSync(filename, text, 'utf-8')
 }
 
+// TODO ends with newline could be its own small module
+function endsWithNewLines (text) {
+  return /\n\n$/.test(text)
+}
+
+function finishTextWithEndline (text) {
+  la(is.string(text), 'expected text', text)
+  if (!endsWithNewLines(text)) {
+    text += '\n'
+  }
+  return text
+}
+
+function finishWithEndline (filename) {
+  var text = fs.readFileSync(filename, 'utf-8')
+  text = finishTextWithEndline(text)
+  fs.writeFileSync(filename, text, 'utf-8')
+}
+
 module.exports = {
   bundleName: bundleName,
   builtName: builtName,
@@ -53,5 +72,7 @@ module.exports = {
   getFirstLine: getFirstLine,
   isHashbang: isHashbang,
   removeFirstLine: removeFirstLine,
-  restoreFirstLine: restoreFirstLine
+  restoreFirstLine: restoreFirstLine,
+  finishWithEndline: finishWithEndline,
+  finishTextWithEndline: finishTextWithEndline
 }

@@ -62,7 +62,7 @@ function transpile (supportedFeatures, neededFeatures, inputFilename, outputFile
         return reject(err)
       }
 
-      var output = result.code
+      var output = utils.finishTextWithEndline(result.code)
       require('fs').writeFileSync(outputFilename, output, 'utf-8')
       debug('saved file', outputFilename)
       resolve(outputFilename)
