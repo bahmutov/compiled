@@ -64,6 +64,20 @@ function finishWithEndline (filename) {
   fs.writeFileSync(filename, text, 'utf-8')
 }
 
+function formFilenames (dir, filename) {
+  la(is.unemptyString(filename), 'expected filename', filename)
+  var name = bundleName(filename)
+  var builtFilename = path.join(dir, builtName(name))
+  var featuresFilename = path.join(dir, featuresName(name))
+  var compiledFilename = path.join(dir, compiledName(name))
+
+  return {
+    built: builtFilename,
+    features: featuresFilename,
+    compiled: compiledFilename
+  }
+}
+
 module.exports = {
   bundleName: bundleName,
   builtName: builtName,
@@ -74,5 +88,6 @@ module.exports = {
   removeFirstLine: removeFirstLine,
   restoreFirstLine: restoreFirstLine,
   finishWithEndline: finishWithEndline,
-  finishTextWithEndline: finishTextWithEndline
+  finishTextWithEndline: finishTextWithEndline,
+  formFilenames: formFilenames
 }

@@ -23,7 +23,8 @@
     "issues": "git-issues",
     "commit": "commit-wizard",
     "test-build": "DEBUG=compiled node bin/build.js",
-    "test-compile": "DEBUG=compiled node bin/compile.js"
+    "test-compile": "DEBUG=compiled node bin/compile.js",
+    "postinstall": "DEBUG=compiled node bin/compile.js"
   },
   "repository": {
     "type": "git",

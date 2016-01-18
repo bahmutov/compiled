@@ -6,7 +6,6 @@ var is = require('check-more-types')
 var utils = require('./utils')
 var es6support = require('es-feature-tests')
 var getConfig = require('./get-config')
-var path = require('path')
 var fs = require('fs')
 
 function transpile (supportedFeatures, neededFeatures, inputFilename, outputFilename) {
@@ -89,21 +88,41 @@ function compileBundle (inputFilename, esFeaturesFilename, outputFilename) {
   })
 }
 
+var build = require('./build')
+
+function anyMissingBuiltFiles (config) {
+  return config.files.some(function (filename) {
+    var filenames = utils.formFilenames(config.dir, filename)
+    return !fs.existsSync(filenames.built) ||
+      !fs.existsSync(filenames.features)
+  })
+}
+
+function compileBuiltFiles (config) {
+  var promises = config.files.map(function (filename) {
+    var filenames = utils.formFilenames(config.dir, filename)
+
+    debug('%s and %s => %s',
+      filenames.built, filenames.features, filenames.compiled)
+
+    return compileBundle(filenames.built, filenames.features, filenames.compiled)
+  })
+  return Promise.all(promises)
+}
+
 function compile () {
   var config = getConfig()
   debug('found %d files in to build', config.files.length)
-  var promises = config.files.map(function (filename) {
-    var name = utils.bundleName(filename)
-    var builtFilename = path.join(config.dir, utils.builtName(name))
-    var featuresFilename = path.join(config.dir, utils.featuresName(name))
-    var compiledFilename = path.join(config.dir, utils.compiledName(name))
 
-    debug('compile %s from %s and %s to %s',
-      name, builtFilename, featuresFilename, compiledFilename)
+  var start = Promise.resolve(true)
+  if (anyMissingBuiltFiles(config)) {
+    console.log('missing build bundles, building ...')
+    start = start.then(build)
+  } else {
+    debug('all built bundles are present')
+  }
 
-    return compileBundle(builtFilename, featuresFilename, compiledFilename)
-  })
-  return Promise.all(promises)
+  return start.then(compileBuiltFiles.bind(null, config))
 }
 
 module.exports = compile
