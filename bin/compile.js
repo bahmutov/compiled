@@ -3,13 +3,18 @@
 'use strict'
 
 // do not run on itself when installing as 3rd party dependency
+var isForced = process.argv.some(function (arg) {
+  return arg === '--force' || arg === '-f'
+})
 var path = require('path')
 var fs = require('fs')
-var packageFilename = path.join(process.cwd(), 'package.json')
-if (fs.existsSync(packageFilename)) {
-  var pkg = JSON.parse(fs.readFileSync(packageFilename))
-  if (pkg.name === 'compiled') {
-    process.exit(0)
+if (!isForced) {
+  var packageFilename = path.join(process.cwd(), 'package.json')
+  if (fs.existsSync(packageFilename)) {
+    var pkg = JSON.parse(fs.readFileSync(packageFilename))
+    if (pkg.name === 'compiled') {
+      process.exit(0)
+    }
   }
 }
 

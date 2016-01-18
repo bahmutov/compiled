@@ -18,3 +18,5 @@ var objectAdd = function (_ref) {
   return a + b;
 };
 console.log('Adding object properties', objectAdd({ a: 10, b: 2 }));
+
+console.log('binary literal', 5);

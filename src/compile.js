@@ -13,7 +13,8 @@ function transpile (supportedFeatures, neededFeatures, inputFilename, outputFile
     letConst: ['transform-es2015-block-scoping'],
     templateString: 'transform-es2015-template-literals',
     arrow: 'transform-es2015-arrow-functions',
-    parameterDestructuring: ['transform-es2015-parameters', 'transform-es2015-destructuring']
+    parameterDestructuring: ['transform-es2015-parameters', 'transform-es2015-destructuring'],
+    numericLiteral: 'transform-es2015-literals'
   }
 
   var plugins = [] // plugin names

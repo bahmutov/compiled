@@ -12,3 +12,5 @@ Promise.resolve(add(a, b))
 
 const objectAdd = ({a, b}) => a + b
 console.log('Adding object properties', objectAdd({ a: 10, b: 2 }))
+
+console.log('binary literal', 0b101)
