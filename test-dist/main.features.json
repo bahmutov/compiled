@@ -3,5 +3,6 @@
   "letConst",
   "numericLiteral",
   "parameterDestructuring",
+  "spreadRest",
   "templateString"
 ]

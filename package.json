@@ -63,6 +63,7 @@
     "babel-plugin-transform-es2015-destructuring": "6.4.0",
     "babel-plugin-transform-es2015-literals": "6.3.13",
     "babel-plugin-transform-es2015-parameters": "6.4.2",
+    "babel-plugin-transform-es2015-spread": "6.4.0",
     "babel-plugin-transform-es2015-template-literals": "6.3.13",
     "babel-polyfill": "6.3.14",
     "check-more-types": "2.10.0",

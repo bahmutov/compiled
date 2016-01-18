@@ -9,12 +9,14 @@ var getConfig = require('./get-config')
 var fs = require('fs')
 
 function transpile (supportedFeatures, neededFeatures, inputFilename, outputFilename) {
+  // babel plugins https://babeljs.io/docs/plugins/
   var babelMapping = {
     letConst: ['transform-es2015-block-scoping'],
     templateString: 'transform-es2015-template-literals',
     arrow: 'transform-es2015-arrow-functions',
     parameterDestructuring: ['transform-es2015-parameters', 'transform-es2015-destructuring'],
-    numericLiteral: 'transform-es2015-literals'
+    numericLiteral: 'transform-es2015-literals',
+    spreadRest: 'transform-es2015-spread'
   }
 
   var plugins = [] // plugin names

@@ -20,3 +20,8 @@ var objectAdd = function (_ref) {
 console.log('Adding object properties', objectAdd({ a: 10, b: 2 }));
 
 console.log('binary literal', 5);
+
+// spread rest support
+var params = ['hello', true, 7];
+var other = [1, 2].concat(params); // [ 1, 2, 'hello', true, 7 ]
+console.assert(other.length === 5);
