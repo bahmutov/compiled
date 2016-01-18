@@ -7,7 +7,7 @@
     "build": "bin/build.js",
     "compile": "bin/compile.js"
   },
-  "preferGlobal": true,
+  "preferGlobal": false,
   "engines": {
     "node": ">=0.11.0",
     "npm": ">=3.0.0"
@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "test": "npm run lint && npm run test-build && npm run test-compile && node test-dist/main.compiled.js",
-    "lint": "standard src/*.js test/*.js bin/*.js",
+    "lint": "standard src/*.js test/*.js bin/build.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "issues": "git-issues",
     "commit": "commit-wizard",

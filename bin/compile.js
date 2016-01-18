@@ -2,6 +2,17 @@
 
 'use strict'
 
+// do not run on itself when installing as 3rd party dependency
+var path = require('path')
+var fs = require('fs')
+var packageFilename = path.join(process.cwd(), 'package.json')
+if (fs.existsSync(packageFilename)) {
+  var pkg = JSON.parse(fs.readFileSync(packageFilename))
+  if (pkg.name === 'compiled') {
+    process.exit(0)
+  }
+}
+
 var help = [
   'USE: compile',
   '     - transpiles dist/bundle.js into dist/compiled.js'
@@ -9,7 +20,7 @@ var help = [
 
 require('simple-bin-help')({
   minArguments: 2,
-  packagePath: __dirname + '/../package.json',
+  packagePath: path.join(__dirname, '/../package.json'),
   help: help
 })
 
