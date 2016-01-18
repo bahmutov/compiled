@@ -43,6 +43,23 @@ Define the following scripts in the `package.json`
 Good example is the [left-behind](https://github.com/bahmutov/left-behind) repo.
 It has the main code and a bin script. Each is compiled separately.
 
+## Force features
+
+You can force features to the list, maybe they are not detected by the feature tests.
+For example, to support the [new string repeat method](http://es6-features.org/#StringRepeating)
+
+```json
+"config": {
+  "compiled": {
+    "dir": "dist",
+    "files": ["src/main.js"],
+    "features": ["StringMethods"]
+  }
+}
+```
+
+Use the names returned by ES feature tests
+
 ## Debug and development
 
 If you run this code using `DEBUG=compiled` variable, it will print debug log messages.

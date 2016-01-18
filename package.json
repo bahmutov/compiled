@@ -87,7 +87,8 @@
       "files": [
         "test/main.js",
         "test/bin-main.js"
-      ]
+      ],
+      "features": ["StringMethods"]
     },
     "pre-git": {
       "commit-msg": [

@@ -46,7 +46,7 @@ function roll (inputFilename, outputFilename) {
   })
 }
 
-function findUsedES6 (outputFilename, filename) {
+function findUsedES6 (config, outputFilename, filename) {
   var testify = require('es-feature-tests/testify')
   debug('scanning for es features', filename)
   var output = testify.scan({
@@ -61,6 +61,15 @@ function findUsedES6 (outputFilename, filename) {
   //   output.push('promises')
   // }
 
+  if (is.array(config.features)) {
+    debug('user required these features', config.features)
+    config.features.filter(is.unemptyString).forEach(function (userListedFeature) {
+      if (output.indexOf(userListedFeature) === -1) {
+        output.push(userListedFeature)
+      }
+    })
+  }
+
   output = output.sort()
   debug('used ES features', output)
 
@@ -68,7 +77,7 @@ function findUsedES6 (outputFilename, filename) {
   debug('saved file with found es features', outputFilename)
 }
 
-function buildBundle (inputFilename, toDir, name) {
+function buildBundle (config, inputFilename, toDir, name) {
   la(is.unemptyString(inputFilename), 'missing input filename', inputFilename)
   la(is.unemptyString(toDir), 'missing output dir name', toDir)
   la(is.unemptyString(name), 'missing bundle name', name)
@@ -78,7 +87,7 @@ function buildBundle (inputFilename, toDir, name) {
   var featuresFilename = path.join(toDir, utils.featuresName(name))
 
   return roll(inputFilename, outputFilename)
-    .then(findUsedES6.bind(null, featuresFilename))
+    .then(findUsedES6.bind(null, config, featuresFilename))
     .catch(function (err) {
       console.error('problem building', inputFilename)
       console.error(err.message)
@@ -91,7 +100,7 @@ function build () {
   var config = getConfig()
   debug('found %d files in to build', config.files.length)
   var promises = config.files.map(function (filename) {
-    return buildBundle(filename, config.dir, utils.bundleName(filename))
+    return buildBundle(config, filename, config.dir, utils.bundleName(filename))
   })
   return Promise.all(promises)
 }

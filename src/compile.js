@@ -1,4 +1,4 @@
-require('babel-polyfill')
+// require('babel-polyfill')
 
 var debug = require('debug')('compiled')
 var la = require('lazy-ass')
