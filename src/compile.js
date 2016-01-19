@@ -11,7 +11,9 @@ var babelMapping = require('./es-features-babel-plugins')
 
 function transpile (supportedFeatures, neededFeatures, inputFilename, outputFilename) {
   var plugins = [] // plugin names
-  var addBabelPolyfill
+  // for now always include polyfill,
+  // because hard to detect all edge cases when new methods are used
+  var addBabelPolyfill = true
 
   function addUniquePlugin (name) {
     if (!name) {

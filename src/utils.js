@@ -96,7 +96,6 @@ function addBabelRequire (text) {
   }
   if (isHashbang(firstLine)) {
     result = firstLine + '\n' + addBabelRequire(text.substr(firstNewLine + 1))
-    console.log(result)
     return result
   }
   return requireLine + text
