@@ -43,5 +43,5 @@ console.assert(third === 3, 'third element');
 
 // TODO detect string repeat
 // string repeat
-// const foo3 = 'foo'.repeat(3)
-// console.assert(foo3 === 'foofoofoo', 'string repeat')
+var foo3 = 'foo'.repeat(3);
+console.assert(foo3 === 'foofoofoo', 'string repeat');
