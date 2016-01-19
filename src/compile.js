@@ -7,21 +7,11 @@ var utils = require('./utils')
 var es6support = require('es-feature-tests')
 var getConfig = require('./get-config')
 var fs = require('fs')
+var babelMapping = require('./es-features-babel-plugins')
 
 function transpile (supportedFeatures, neededFeatures, inputFilename, outputFilename) {
-  // babel plugins https://babeljs.io/docs/plugins/
-  var babelMapping = {
-    letConst: ['transform-es2015-block-scoping'],
-    templateString: 'transform-es2015-template-literals',
-    arrow: 'transform-es2015-arrow-functions',
-    parameterDestructuring: ['transform-es2015-parameters', 'transform-es2015-destructuring'],
-    numericLiteral: 'transform-es2015-literals',
-    spreadRest: 'transform-es2015-spread',
-    conciseMethodProperty: 'transform-es2015-shorthand-properties',
-    destructuring: 'transform-es2015-destructuring'
-  }
-
   var plugins = [] // plugin names
+  var addBabelPolyfill
 
   function addUniquePlugin (name) {
     if (!name) {
@@ -33,6 +23,11 @@ function transpile (supportedFeatures, neededFeatures, inputFilename, outputFile
   }
 
   function addPlugin (names) {
+    if (names === babelMapping.INCLUDE_BABEL_POLYFILL) {
+      addBabelPolyfill = true
+      return
+    }
+
     if (typeof names === 'string') {
       return addUniquePlugin(names)
     }
@@ -66,7 +61,13 @@ function transpile (supportedFeatures, neededFeatures, inputFilename, outputFile
         return reject(err)
       }
 
-      var output = utils.finishTextWithEndline(result.code)
+      var output = result.code
+      if (addBabelPolyfill) {
+        debug('adding Babel polyfill require')
+        output = utils.addBabelRequire(output)
+      }
+      output = utils.finishTextWithEndline(output)
+
       require('fs').writeFileSync(outputFilename, output, 'utf-8')
       debug('saved file', outputFilename)
       resolve(outputFilename)

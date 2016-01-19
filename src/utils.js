@@ -3,6 +3,8 @@ var is = require('check-more-types')
 var path = require('path')
 var fs = require('fs')
 
+var SELF_NAME = 'compiled'
+
 function bundleName (filename) {
   la(is.unemptyString(filename), 'expected filename', filename)
   return path.basename(filename, '.js')
@@ -78,6 +80,36 @@ function formFilenames (dir, filename) {
   }
 }
 
+function addBabelRequire (text) {
+  text = text.trim()
+
+  // how to detect self test?
+  var name = isSelfCompiling() ? '../src/compiled' : SELF_NAME
+  var requireLine = 'require(\'' + name + '\').babelPolyfill()\n'
+  var firstNewLine = text.indexOf('\n')
+  var firstLine = text.substr(0, firstNewLine + 1)
+
+  var result
+
+  if (/use strict/.test(firstLine)) {
+    return firstLine + requireLine + text.substr(firstNewLine + 1)
+  }
+  if (isHashbang(firstLine)) {
+    result = firstLine + '\n' + addBabelRequire(text.substr(firstNewLine + 1))
+    console.log(result)
+    return result
+  }
+  return requireLine + text
+}
+
+function isSelfCompiling () {
+  var packageFilename = path.join(process.cwd(), 'package.json')
+  if (fs.existsSync(packageFilename)) {
+    var pkg = JSON.parse(fs.readFileSync(packageFilename))
+    return pkg.name === SELF_NAME
+  }
+}
+
 module.exports = {
   bundleName: bundleName,
   builtName: builtName,
@@ -89,5 +121,7 @@ module.exports = {
   restoreFirstLine: restoreFirstLine,
   finishWithEndline: finishWithEndline,
   finishTextWithEndline: finishTextWithEndline,
-  formFilenames: formFilenames
+  formFilenames: formFilenames,
+  addBabelRequire: addBabelRequire,
+  isSelfCompiling: isSelfCompiling
 }

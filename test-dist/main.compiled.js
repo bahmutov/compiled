@@ -1,4 +1,5 @@
 'use strict';
+require('../src/compiled').babelPolyfill()
 
 // calc.js
 

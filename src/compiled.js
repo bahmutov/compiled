@@ -2,5 +2,8 @@ var build = require('./build')
 var compile = require('./compile')
 module.exports = {
   build: build,
-  compile: compile
+  compile: compile,
+  babelPolyfill: function () {
+    require('babel-polyfill')
+  }
 }
