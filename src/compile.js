@@ -122,9 +122,9 @@ function compileBuiltFiles (config, esFeatures) {
   return Promise.all(promises)
 }
 
-function compile () {
-  var config = getConfig()
-  debug('found %d files in to build', config.files.length)
+function compile (options) {
+  var config = is.object(options) ? options : getConfig()
+  debug('found %d files to compile', config.files.length)
 
   var start = Promise.resolve(true)
   if (anyMissingBuiltFiles(config)) {
