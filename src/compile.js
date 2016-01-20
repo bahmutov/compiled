@@ -129,7 +129,7 @@ function compile (options) {
   }
 
   var environmentESFeatures = is.object(config.esFeatures)
-    ? Promise.resolve.bind(null, options.esFeatures)
+    ? Promise.resolve.bind(Promise, options.esFeatures)
     : findES6Support
 
   return start
