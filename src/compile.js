@@ -1,5 +1,3 @@
-// require('babel-polyfill')
-
 var debug = require('debug')('compiled')
 var la = require('lazy-ass')
 var is = require('check-more-types')
@@ -7,7 +5,8 @@ var utils = require('./utils')
 var es6support = require('es-feature-tests')
 var getConfig = require('./get-config')
 var fs = require('fs')
-var babelMapping = require('./es-features-babel-plugins')
+var babelMapping = require('es-features-to-babel-plugins')
+la(is.object(babelMapping), 'expected object with mapping', babelMapping)
 
 function transpile (supportedFeatures, neededFeatures, inputFilename, outputFilename) {
   var plugins = [] // plugin names
