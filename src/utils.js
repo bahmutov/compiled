@@ -1,6 +1,7 @@
 var la = require('lazy-ass')
 var is = require('check-more-types')
 var path = require('path')
+var join = path.join
 var fs = require('fs')
 
 var SELF_NAME = 'compiled'
@@ -66,12 +67,19 @@ function finishWithEndline (filename) {
   fs.writeFileSync(filename, text, 'utf-8')
 }
 
-function formFilenames (dir, filename) {
+function formFilenames (config, filename) {
+  la(is.object(config), 'missing config object', config)
   la(is.unemptyString(filename), 'expected filename', filename)
+
+  var joinDir = join.bind(null, config.dir)
+
   var name = bundleName(filename)
-  var builtFilename = path.join(dir, builtName(name))
-  var featuresFilename = path.join(dir, featuresName(name))
-  var compiledFilename = path.join(dir, compiledName(name))
+  var builtFilename = joinDir(builtName(name))
+  var featuresFilename = joinDir(featuresName(name))
+
+  var compiledFilename = is.fn(config.formOutputFilename)
+    ? config.formOutputFilename(name)
+    : joinDir(compiledName(name))
 
   return {
     built: builtFilename,
@@ -102,7 +110,7 @@ function addBabelRequire (text) {
 }
 
 function isSelfCompiling () {
-  var packageFilename = path.join(process.cwd(), 'package.json')
+  var packageFilename = join(process.cwd(), 'package.json')
   if (fs.existsSync(packageFilename)) {
     var pkg = JSON.parse(fs.readFileSync(packageFilename))
     return pkg.name === SELF_NAME

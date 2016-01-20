@@ -3,4 +3,4 @@
 'use strict';
 require('../src/compiled').babelPolyfill()
 
-console.log('example with hash bang line');
+console.log(`example with hash bang line`);

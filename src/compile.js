@@ -95,7 +95,7 @@ var build = require('./build')
 
 function anyMissingBuiltFiles (config) {
   return config.files.some(function (filename) {
-    var filenames = utils.formFilenames(config.dir, filename)
+    var filenames = utils.formFilenames(config, filename)
     return !fs.existsSync(filenames.built) ||
       !fs.existsSync(filenames.features)
   })
@@ -105,7 +105,7 @@ function compileBuiltFiles (config, esFeatures) {
   la(is.object(esFeatures), 'missing supported ES6 features')
 
   var promises = config.files.map(function (filename) {
-    var filenames = utils.formFilenames(config.dir, filename)
+    var filenames = utils.formFilenames(config, filename)
 
     debug('%s and %s => %s',
       filenames.built, filenames.features, filenames.compiled)
