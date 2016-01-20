@@ -88,11 +88,12 @@ function formFilenames (config, filename) {
   }
 }
 
-function addBabelRequire (text) {
+function addBabelRequire (text, moduleName) {
   text = text.trim()
 
-  // how to detect self test?
-  var name = isSelfCompiling() ? '../src/compiled' : SELF_NAME
+  moduleName = moduleName || SELF_NAME
+  var name = isSelfCompiling() ? '../src/compiled' : moduleName
+
   var requireLine = 'require(\'' + name + '\').babelPolyfill()\n'
   var firstNewLine = text.indexOf('\n')
   var firstLine = text.substr(0, firstNewLine + 1)
@@ -103,7 +104,7 @@ function addBabelRequire (text) {
     return firstLine + requireLine + text.substr(firstNewLine + 1)
   }
   if (isHashbang(firstLine)) {
-    result = firstLine + '\n' + addBabelRequire(text.substr(firstNewLine + 1))
+    result = firstLine + '\n' + addBabelRequire(text.substr(firstNewLine + 1), moduleName)
     return result
   }
   return requireLine + text

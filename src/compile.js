@@ -8,7 +8,8 @@ var fs = require('fs')
 var babelMapping = require('es-features-to-babel-plugins')
 la(is.object(babelMapping), 'expected object with mapping', babelMapping)
 
-function transpile (supportedFeatures, neededFeatures, inputFilename, outputFilename) {
+function transpile (supportedFeatures, neededFeatures, inputFilename, outputFilename,
+  babelPolyfillModuleName) {
   var plugins = [] // plugin names
   // for now always include polyfill,
   // because hard to detect all edge cases when new methods are used
@@ -65,7 +66,7 @@ function transpile (supportedFeatures, neededFeatures, inputFilename, outputFile
       var output = result.code
       if (addBabelPolyfill) {
         debug('adding Babel polyfill require')
-        output = utils.addBabelRequire(output)
+        output = utils.addBabelRequire(output, babelPolyfillModuleName)
       }
       output = utils.finishTextWithEndline(output)
 
@@ -76,7 +77,8 @@ function transpile (supportedFeatures, neededFeatures, inputFilename, outputFile
   })
 }
 
-function compileBundle (es6results, inputFilename, esFeaturesFilename, outputFilename) {
+function compileBundle (es6results, inputFilename, esFeaturesFilename, outputFilename,
+  moduleWithBabelPolyfill) {
   la(is.unemptyString(inputFilename), 'missing input filename')
   la(is.unemptyString(outputFilename), 'missing output filename')
 
@@ -88,7 +90,8 @@ function compileBundle (es6results, inputFilename, esFeaturesFilename, outputFil
     'got', es6features)
   debug('%s needs es6 features', name, es6features)
 
-  return transpile(es6results, es6features, inputFilename, outputFilename)
+  return transpile(es6results,
+    es6features, inputFilename, outputFilename, moduleWithBabelPolyfill)
 }
 
 var build = require('./build')
@@ -111,7 +114,8 @@ function compileBuiltFiles (config, esFeatures) {
       filenames.built, filenames.features, filenames.compiled)
 
     return compileBundle(esFeatures,
-      filenames.built, filenames.features, filenames.compiled)
+      filenames.built, filenames.features, filenames.compiled,
+      config.moduleWithBabelPolyfill)
   })
   return Promise.all(promises)
 }
