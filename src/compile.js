@@ -134,8 +134,12 @@ function compile (options) {
     debug('all built bundles are present')
   }
 
+  var environmentESFeatures = is.object(config.esFeatures)
+    ? Promise.resolve.bind(null, options.esFeatures)
+    : findES6Support
+
   return start
-    .then(findES6Support)
+    .then(environmentESFeatures)
     .then(compileBuiltFiles.bind(null, config))
 }
 
