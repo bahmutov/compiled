@@ -2,7 +2,7 @@ var debug = require('debug')('compiled')
 var la = require('lazy-ass')
 var is = require('check-more-types')
 var utils = require('./utils')
-var es6support = require('es-feature-tests')
+var findES6Support = require('./find-es-support')
 var getConfig = require('./get-config')
 var fs = require('fs')
 var babelMapping = require('es-features-to-babel-plugins')
@@ -89,12 +89,6 @@ function compileBundle (es6results, inputFilename, esFeaturesFilename, outputFil
   debug('%s needs es6 features', name, es6features)
 
   return transpile(es6results, es6features, inputFilename, outputFilename)
-}
-
-function findES6Support () {
-  return new Promise(function (resolve) {
-    es6support('all', resolve)
-  })
 }
 
 var build = require('./build')
