@@ -76,22 +76,24 @@ function transpile (supportedFeatures, neededFeatures, inputFilename, outputFile
   })
 }
 
-function compileBundle (inputFilename, esFeaturesFilename, outputFilename) {
+function compileBundle (es6results, inputFilename, esFeaturesFilename, outputFilename) {
   la(is.unemptyString(inputFilename), 'missing input filename')
   la(is.unemptyString(outputFilename), 'missing output filename')
+
+  var name = utils.bundleName(inputFilename)
 
   var es6features = JSON.parse(fs.readFileSync(esFeaturesFilename, 'utf-8'))
   la(is.array(es6features),
     'expected list of features from', esFeaturesFilename,
     'got', es6features)
-  debug('need es6 features', es6features)
+  debug('%s needs es6 features', name, es6features)
 
-  return new Promise(function (resolve, reject) {
-    es6support('all', function (es6results) {
-      return transpile(es6results, es6features, inputFilename, outputFilename)
-        .then(resolve)
-        .catch(reject)
-    })
+  return transpile(es6results, es6features, inputFilename, outputFilename)
+}
+
+function findES6Support () {
+  return new Promise(function (resolve) {
+    es6support('all', resolve)
   })
 }
 
@@ -105,14 +107,17 @@ function anyMissingBuiltFiles (config) {
   })
 }
 
-function compileBuiltFiles (config) {
+function compileBuiltFiles (config, esFeatures) {
+  la(is.object(esFeatures), 'missing supported ES6 features')
+
   var promises = config.files.map(function (filename) {
     var filenames = utils.formFilenames(config.dir, filename)
 
     debug('%s and %s => %s',
       filenames.built, filenames.features, filenames.compiled)
 
-    return compileBundle(filenames.built, filenames.features, filenames.compiled)
+    return compileBundle(esFeatures,
+      filenames.built, filenames.features, filenames.compiled)
   })
   return Promise.all(promises)
 }
@@ -129,7 +134,9 @@ function compile () {
     debug('all built bundles are present')
   }
 
-  return start.then(compileBuiltFiles.bind(null, config))
+  return start
+    .then(findES6Support)
+    .then(compileBuiltFiles.bind(null, config))
 }
 
 module.exports = compile
