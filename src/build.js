@@ -96,8 +96,8 @@ function buildBundle (config, inputFilename, toDir, name) {
     })
 }
 
-function build () {
-  var config = getConfig()
+function build (options) {
+  var config = is.object(options) ? options : getConfig()
   debug('found %d files in to build', config.files.length)
   var promises = config.files.map(function (filename) {
     return buildBundle(config, filename, config.dir, utils.bundleName(filename))
