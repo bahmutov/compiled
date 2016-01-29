@@ -6,7 +6,8 @@
 [![Build status][compiled-ci-image] ][compiled-ci-url]
 [![semantic-release][semantic-image] ][semantic-url]
 
-Read [JavaScript needs the compile step (on install)](http://glebbahmutov.com/blog/javascript-needs-compile-step/) blog post.
+Read [JavaScript needs the compile step (on install)](http://glebbahmutov.com/blog/javascript-needs-compile-step/) blog post. If you want to precompile bundles instead of asking the client to do
+this, see [pre-compiled](https://github.com/bahmutov/pre-compiled).
 
 ## Install and use
 
