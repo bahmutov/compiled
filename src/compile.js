@@ -105,7 +105,8 @@ function anyMissingBuiltFiles (config) {
 }
 
 function compileBuiltFiles (config, esFeatures) {
-  la(is.object(esFeatures), 'missing supported ES6 features')
+  la(is.object(esFeatures), 'missing supported ES6 features',
+    'config', config, 'es6 features', esFeatures)
 
   var promises = config.files.map(function (filename) {
     var filenames = utils.formFilenames(config, filename)

@@ -70,7 +70,7 @@
     "check-more-types": "2.10.0",
     "debug": "2.2.0",
     "es-feature-tests": "0.3.0",
-    "es-features-to-babel-plugins": "1.0.0",
+    "es-features-to-babel-plugins": "1.1.0",
     "lazy-ass": "1.3.0",
     "rollup": "0.24.1",
     "simple-bin-help": "1.6.0"
