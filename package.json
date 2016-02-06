@@ -24,7 +24,8 @@
     "commit": "commit-wizard",
     "test-build": "DEBUG=compiled node bin/build.js",
     "test-compile": "DEBUG=compiled node bin/compile.js --force",
-    "postinstall": "DEBUG=compiled node bin/compile.js"
+    "postinstall": "DEBUG=compiled node bin/compile.js",
+    "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";"
   },
   "repository": {
     "type": "git",
@@ -103,7 +104,9 @@
         "npm run test-compile",
         "node test-dist/main.compiled.js"
       ],
-      "pre-push": [],
+      "pre-push": [
+        "npm run size"
+      ],
       "post-commit": [],
       "post-merge": []
     }
