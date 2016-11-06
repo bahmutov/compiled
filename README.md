@@ -1,7 +1,7 @@
 # compiled
 > Compiles the ES* bundle to your NodeJS version on install
 
-[![NPM][compiled-icon] ][compiled-url]
+[![npm version](https://badge.fury.io/js/compiled.svg)](https://badge.fury.io/js/compiled)
 
 [![Build status][compiled-ci-image] ][compiled-ci-url]
 [![semantic-release][semantic-image] ][semantic-url]
